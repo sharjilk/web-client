@@ -33,7 +33,7 @@ const SignInPage = () => {
   };
 
   return (
-    <div className='max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-lg'>
+    <div className='max-w-md mx-auto mt-10 p-6 rounded-lg shadow-lg'>
       <h2 className='text-2xl font-bold mb-4 text-center'>Sign In</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='mb-4'>

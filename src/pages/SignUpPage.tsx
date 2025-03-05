@@ -4,13 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpSchema } from '../schema/auth.schema';
 import { signUp } from '../api/auth.api';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 type SignUpForm = z.infer<typeof signUpSchema>;
 
 const SignUpPage = () => {
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,28 +20,18 @@ const SignUpPage = () => {
 
   const mutation = useMutation({
     mutationFn: signUp,
-    // onSuccess: () => {
-    //   localStorage.setItem('registrationData', JSON.stringify(getValues()));
-    //   navigate('/verify-otp');
-    // },
-    // onError: (error: Error) => {
-    //   alert(error.message);
-    // },
   });
 
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      const data = getValues();
-      localStorage.setItem('registrationData', JSON.stringify(data));
-      navigate('/verify-otp');
-    }
-  }, [mutation.isSuccess, getValues, navigate]);
+  if (mutation.status === 'error') {
+    alert(mutation.error.message);
+  }
 
-  useEffect(() => {
-    if (mutation.isError && mutation.error) {
-      alert((mutation.error as Error).message);
+  if (mutation.status === 'success') {
+    if (!localStorage.getItem('registrationData')) {
+      localStorage.setItem('registrationData', JSON.stringify(getValues()));
     }
-  }, [mutation.isError, mutation.error]);
+    return <Navigate to='/verify-otp' replace />;
+  }
 
   const onSubmit = (data: SignUpForm) => {
     mutation.mutate(data);
