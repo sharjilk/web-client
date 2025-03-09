@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getCurrentUser, logoutApi } from '../api/auth.api';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface User {
   id: string;
@@ -9,7 +10,7 @@ interface User {
   roles: string[];
 }
 
-const DashboardPage = () => {
+const Dashboard = () => {
   const navigate = useNavigate();
 
   const { data, isError, isLoading } = useQuery<User, Error>({
@@ -28,6 +29,7 @@ const DashboardPage = () => {
     try {
       await logoutApi();
       navigate('/signin', { replace: true });
+      toast.success('Logged out successfully');
     } catch (err: unknown) {
       if (err instanceof Error) {
         alert(err.message);
@@ -48,4 +50,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

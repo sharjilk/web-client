@@ -68,6 +68,7 @@ export const forgotPassword = async (data: { email: string }) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
+      credentials: 'include',
     }
   );
   if (!res.ok) throw new Error(await res.text());

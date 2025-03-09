@@ -1,19 +1,23 @@
-import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from 'react-router-dom';
-import SignUpPage from '../pages/SignUpPage';
-import OTPVerificationPage from '../pages/OTPVerificationPage';
-import SignInPage from '../pages/SignInPage';
-import ForgotPasswordPage from '../pages/ForgotPasswordPage';
-import ResetPasswordPage from '../pages/ResetPasswordPage';
-import DashboardPage from '../pages/DashboardPage';
+import SignUp from '../pages/SignUp';
+import OTPVerification from '../pages/OTPVerification';
+import SignIn from '../pages/SignIn';
+import ForgotPassword from '../pages/ForgotPassword';
+import ResetPassword from '../pages/ResetPassword';
+import Dashboard from '../pages/Dashboard';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import AuthLayout from '../layouts/AuthLayout';
+import DashboardLayout from '@/layouts/DashboardLayout';
+import ConnectBank from '@/pages/ConnectBank';
+import Transactions from '@/pages/Transactions';
+import Balances from '@/pages/Balances';
+import BankAccounts from '@/pages/BankAccounts';
 
 const AppRoutes = () => (
   <Router>
@@ -24,7 +28,7 @@ const AppRoutes = () => (
           path='/signup'
           element={
             <PublicRoute>
-              <SignUpPage />
+              <SignUp />
             </PublicRoute>
           }
         />
@@ -32,7 +36,7 @@ const AppRoutes = () => (
           path='/verify-otp'
           element={
             <PublicRoute>
-              <OTPVerificationPage />
+              <OTPVerification />
             </PublicRoute>
           }
         />
@@ -40,7 +44,7 @@ const AppRoutes = () => (
           path='/signin'
           element={
             <PublicRoute>
-              <SignInPage />
+              <SignIn />
             </PublicRoute>
           }
         />
@@ -48,7 +52,7 @@ const AppRoutes = () => (
           path='/forgot-password'
           element={
             <PublicRoute>
-              <ForgotPasswordPage />
+              <ForgotPassword />
             </PublicRoute>
           }
         />
@@ -56,20 +60,55 @@ const AppRoutes = () => (
           path='/reset-password'
           element={
             <PublicRoute>
-              <ResetPasswordPage />
+              <ResetPassword />
             </PublicRoute>
           }
         />
       </Route>
 
-      <Route
-        path='/dashboard'
-        element={
-          <PrivateRoute>
-            <DashboardPage />
-          </PrivateRoute>
-        }
-      />
+      <Route element={<DashboardLayout />}>
+        <Route
+          path='/dashboard'
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/connect-bank'
+          element={
+            <PrivateRoute>
+              <ConnectBank />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/bank-accounts'
+          element={
+            <PrivateRoute>
+              <BankAccounts />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/balances'
+          element={
+            <PrivateRoute>
+              <Balances />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path='/transactions'
+          element={
+            <PrivateRoute>
+              <Transactions />
+            </PrivateRoute>
+          }
+        />
+      </Route>
+
       <Route path='*' element={<Navigate to='/signin' />} />
     </Routes>
   </Router>
