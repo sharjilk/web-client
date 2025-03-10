@@ -3,18 +3,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { forgotPasswordSchema } from '../schema/auth.schema';
 import { forgotPassword } from '../api/auth.api';
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { Label } from '@/components/ui/label';
 
 type ForgotPasswordForm = { email: string };
 
@@ -45,36 +39,48 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Card className='max-w-md mx-auto'>
-      <CardHeader>
-        <CardTitle>Enter your email</CardTitle>
-        <CardDescription>We will send reset link to your email</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='grid w-full items-center gap-4'
-        >
-          <div className='flex flex-col space-y-1.5'>
-            <Input placeholder='Email' {...register('email')} />
-            {errors.email && (
-              <p className='text-red-500 mt-1'>{errors.email.message}</p>
-            )}
-          </div>
-          <Button
-            type='submit'
-            disabled={mutation.isPending}
-            className='w-full cursor-pointer'
-          >
-            {mutation.isPending ? (
-              <Loader2 className='animate-spin' />
-            ) : (
-              'Send reset link'
-            )}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <form className='flex flex-col gap-6' onSubmit={handleSubmit(onSubmit)}>
+      <div className='flex flex-col items-center gap-2 text-center'>
+        <h1 className='text-2xl font-bold'>Enter your email</h1>
+        <p className='text-balance text-sm text-muted-foreground'>
+          We will send reset link to your email
+        </p>
+      </div>
+      <div className='grid gap-6'>
+        <div className='grid gap-2'>
+          <Label htmlFor='email'>Email</Label>
+          <Input
+            id='email'
+            type='email'
+            placeholder='m@example.com'
+            {...register('email')}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'email-error' : undefined}
+            className={errors.email ? 'border-destructive' : ''}
+          />
+          {errors.email && (
+            <p
+              id='email-error'
+              className='text-sm font-medium text-destructive'
+            >
+              {errors.email.message}
+            </p>
+          )}
+        </div>
+        <Button type='submit' className='w-full' disabled={mutation.isPending}>
+          {mutation.isPending ? (
+            <Loader2 className='animate-spin' />
+          ) : (
+            'Send Link'
+          )}
+        </Button>
+      </div>
+      <div className='text-center text-sm'>
+        <Link to={'/login'} className='underline underline-offset-4'>
+          Sign in
+        </Link>
+      </div>
+    </form>
   );
 };
 

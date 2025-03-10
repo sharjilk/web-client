@@ -1,5 +1,6 @@
 export const signUp = async (data: {
-  name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
 }) => {
@@ -15,7 +16,8 @@ export const signUp = async (data: {
 export const verifyOTP = async (data: {
   email: string;
   otp: string;
-  name: string;
+  firstname: string;
+  lastname: string;
   password: string;
 }) => {
   const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/verify-otp`, {

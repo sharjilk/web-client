@@ -1,21 +1,31 @@
 import { Outlet } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
+import { GalleryVerticalEnd } from 'lucide-react';
 
 const AuthLayout = () => {
   return (
-    <div className='min-h-screen flex'>
-      {/* Left Column: Static content (illustration or welcome message), hidden on small screens */}
-      <div className='hidden md:flex w-1/2 bg-primary items-center justify-center'>
-        <div className='text-center text-white p-8'>
-          <h1 className='text-5xl font-bold'>Welcome to MyApp</h1>
-          <p className='mt-4 text-xl'>Simplify your financial management.</p>
+    <div className='grid min-h-screen lg:grid-cols-2'>
+      <div className='flex flex-col min-h-screen gap-3 p-4 md:p-6'>
+        <div className='flex justify-center gap-2 md:justify-start'>
+          <a href='#' className='flex items-center gap-2 font-medium'>
+            <div className='flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground'>
+              <GalleryVerticalEnd className='size-4' />
+            </div>
+            Mizan Inc.
+          </a>
+        </div>
+        <div className='flex flex-1 items-center justify-center'>
+          <div className='w-full max-w-xs'>
+            <Outlet />
+          </div>
         </div>
       </div>
-      {/* Right Column: Render the public authentication pages */}
-      <div className='flex w-full md:w-1/2 items-center justify-center'>
-        <div className='w-full max-w-md p-6'>
-          <Outlet />
-        </div>
+      <div className='relative hidden bg-muted lg:block'>
+        <img
+          src='/placeholder.svg'
+          alt='Image'
+          className='absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale'
+        />
       </div>
       <Toaster richColors />
     </div>
